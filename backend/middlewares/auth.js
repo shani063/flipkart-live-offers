@@ -4,19 +4,16 @@ const ErrorHandler = require('../utils/errorHandler');
 const asyncErrorHandler = require('./asyncErrorHandler');
 
 exports.isAuthenticatedUser = asyncErrorHandler(async (req, res, next) => {
+
     const { token } = req.cookies;
-    console.log("2553")
-    console.log(token)
-    // res.send(token)
+
     if (!token) {
         return next(new ErrorHandler("Please Login to Access", 401))
     }
 
-    const decodedData = jwt.verify(token, 'secret');
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
     req.user = await User.findById(decodedData.id);
-    next(); 
-   
-
+    next();
 });
 
 exports.authorizeRoles = (...roles) => {

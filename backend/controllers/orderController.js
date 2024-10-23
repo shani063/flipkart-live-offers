@@ -13,10 +13,7 @@ exports.newOrder = asyncErrorHandler(async (req, res, next) => {
         paymentInfo,
         totalPrice,
     } = req.body;
-    console.log(shippingInfo,
-        orderItems,
-        paymentInfo,
-        totalPrice)
+
     const orderExist = await Order.findOne({ paymentInfo });
 
     if (orderExist) {
@@ -153,6 +150,6 @@ exports.deleteOrder = asyncErrorHandler(async (req, res, next) => {
     await order.remove();
 
     res.status(200).json({
-        success: true, 
+        success: true,
     });
 });
